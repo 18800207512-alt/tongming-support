@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="同命吗 App 技术支持中心 — 命理分析、紫微斗数、八字排盘、同命群组使用帮助与常见问题解答。" />
+  <title>技术支持 · 同命吗</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* =============================================
+       设计令牌
+       ============================================= */
+    :root {
+      --xuan-50:  #faf7f0;
+      --xuan-100: #f5f0e6;
+      --xuan-200: #ece5d5;
+      --xuan-300: #ddd4bf;
+      --mo-300:   #a09890;
+      --mo-400:   #8a8078;
+      --mo-500:   #665e56;
+      --mo-600:   #4d4740;
+      --mo-700:   #3d3832;
+      --mo-800:   #2a2622;
+      --mo-900:   #1a1714;
+      --jin-400:  #c4a45a;
+      --jin-500:  #b8860b;
+      --zhu-400:  #d4614a;
+      --zhu-500:  #c0392b;
+      --font-serif: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+      --font-sans:  'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+      --shadow-sm: 0 1px 4px rgba(26,23,20,0.06), 0 0 0 1px rgba(61,56,50,0.05);
+      --shadow-md: 0 4px 16px rgba(26,23,20,0.08), 0 0 0 1px rgba(61,56,50,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--xuan-50);
+      background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(184,134,11,0.04), transparent 60%),
+        linear-gradient(170deg, var(--xuan-50) 0%, var(--xuan-100) 50%, var(--xuan-200) 100%);
+      background-attachment: fixed;
+      color: var(--mo-800);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* === 导航 === */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,247,240,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(61,56,50,0.10);
+    }
+    .nav-inner {
+      max-width: 960px; margin: 0 auto;
+      padding: 0 40px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-seal {
+      width: 32px; height: 32px;
+      background: var(--zhu-500); border: 1px solid var(--zhu-400); border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-family: var(--font-serif); font-size: 13px; font-weight: 700;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 0 1px rgba(192,57,43,0.2), inset 0 0 4px rgba(0,0,0,0.1);
+    }
+    .nav-title {
+      font-family: var(--font-serif); font-size: 17px; font-weight: 600;
+      color: var(--mo-800); letter-spacing: 0.08em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 14px; color: var(--mo-500); text-decoration: none;
+      letter-spacing: 0.04em; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--mo-800); }
+
+    /* === Hero === */
+    .hero {
+      position: relative; overflow: hidden;
+      height: 420px; display: flex; align-items: center; justify-content: center;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('support-hero.png');
+      background-size: cover; background-position: center 30%;
+      opacity: 0.28;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(250,247,240,0.3) 0%,
+        rgba(250,247,240,0.1) 40%,
+        rgba(250,247,240,0.88) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 40px;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin-bottom: 24px;
+    }
+    .hero-line {
+      width: 48px; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(184,134,11,0.45));
+    }
+    .hero-line-r { background: linear-gradient(to left, transparent, rgba(184,134,11,0.45)); }
+    .hero-eyebrow-text {
+      font-family: var(--font-serif); font-size: 12px;
+      letter-spacing: 0.32em; color: var(--jin-500); font-weight: 500;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 700; color: var(--mo-900);
+      letter-spacing: 0.28em; line-height: 1.12;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 16px rgba(26,23,20,0.06);
+    }
+    .hero-subtitle {
+      font-size: 15px; color: var(--mo-500);
+      letter-spacing: 0.14em;
+      font-family: var(--font-serif); font-weight: 300;
+    }
+    .hero-badges {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; margin-top: 24px; flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px;
+      background: rgba(192,57,43,0.06); border: 1px solid rgba(192,57,43,0.18);
+      border-radius: 2px;
+      font-family: var(--font-serif); font-size: 12px;
+      color: var(--zhu-500); letter-spacing: 0.08em;
+    }
+    .badge-dot {
+      width: 4px; height: 4px;
+      background: var(--zhu-500); border-radius: 50%; opacity: 0.6;
+    }
+
+    /* === 布局 === */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 40px; }
+
+    .section { padding: 80px 0 64px; }
+
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: 0.35em;
+      color: var(--jin-500); font-family: var(--font-serif);
+      margin-bottom: 14px;
+    }
+    .section-label::before, .section-label::after {
+      content: ''; display: inline-block;
+      width: 20px; height: 1px;
+      background: var(--jin-500); opacity: 0.45;
+    }
+    .section-title {
+      font-family: var(--font-serif); font-size: 26px;
+      font-weight: 600; color: var(--mo-800);
+      letter-spacing: 0.1em; margin-bottom: 8px;
+    }
+    .section-desc { font-size: 14px; color: var(--mo-400); letter-spacing: 0.04em; }
+
+    /* === 简介卡片 === */
+    .intro-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .intro-card {
+      background: rgba(255,255,255,0.68);
+      border: 1px solid rgba(61,56,50,0.10);
+      border-radius: 3px; padding: 36px;
+      box-shadow: var(--shadow-sm);
+      position: relative; overflow: hidden;
+      transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
+    }
+    .intro-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(to right, var(--jin-500), var(--jin-400));
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .intro-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .intro-card:hover::before { opacity: 1; }
+    .intro-icon {
+      width: 46px; height: 46px;
+      background: linear-gradient(135deg, rgba(184,134,11,0.09), rgba(184,134,11,0.03));
+      border: 1px solid rgba(184,134,11,0.15);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 18px;
+    }
+    .intro-card-title {
+      font-family: var(--font-serif); font-size: 16px; font-weight: 600;
+      color: var(--mo-800); letter-spacing: 0.06em; margin-bottom: 10px;
+    }
+    .intro-card-desc { font-size: 14px; color: var(--mo-500); line-height: 1.85; }
+    .intro-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .tag {
+      display: inline-block; padding: 3px 10px;
+      background: rgba(61,56,50,0.05); border: 1px solid rgba(61,56,50,0.10);
+      border-radius: 2px; font-size: 11px; color: var(--mo-500);
+      letter-spacing: 0.06em; font-family: var(--font-serif);
+    }
+
+    /* === 分割线 === */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right,
+        transparent,
+        rgba(61,56,50,0.10) 20%,
+        rgba(184,134,11,0.18) 50%,
+        rgba(61,56,50,0.10) 80%,
+        transparent
+      );
+    }
+
+    /* === FAQ === */
+    .faq-group { margin-bottom: 40px; }
+    .faq-group-title {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-serif); font-size: 12px; font-weight: 600;
+      color: var(--jin-500); letter-spacing: 0.2em; margin-bottom: 14px;
+    }
+    .faq-group-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, rgba(184,134,11,0.22), transparent);
+    }
+    .faq-item {
+      border: 1px solid rgba(61,56,50,0.08); border-radius: 2px;
+      margin-bottom: 8px; background: rgba(255,255,255,0.58);
+      overflow: hidden; transition: box-shadow 0.2s;
+    }
+    .faq-item:hover { box-shadow: var(--shadow-sm); }
+    .faq-item.open { box-shadow: var(--shadow-md); background: rgba(255,255,255,0.80); }
+    .faq-question {
+      width: 100%; text-align: left;
+      padding: 16px 24px; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      font-family: var(--font-serif); font-size: 14px; font-weight: 500;
+      color: var(--mo-700); letter-spacing: 0.04em; transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--mo-900); }
+    .faq-item.open .faq-question { color: var(--mo-900); }
+    .faq-arrow {
+      flex-shrink: 0; width: 22px; height: 22px;
+      border: 1px solid rgba(61,56,50,0.14); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--mo-400); font-size: 11px;
+      transition: transform 0.35s var(--ease-smooth), color 0.2s, border-color 0.2s;
+    }
+    .faq-item.open .faq-arrow {
+      transform: rotate(180deg);
+      color: var(--jin-500); border-color: rgba(184,134,11,0.3);
+    }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.42s var(--ease-smooth); }
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: 14px; color: var(--mo-500); line-height: 1.9;
+      border-top: 1px solid rgba(61,56,50,0.06); padding-top: 16px;
+    }
+    .faq-answer-inner strong { color: var(--mo-700); font-weight: 500; }
+    .faq-answer-inner ul { margin: 8px 0 8px 20px; }
+    .faq-answer-inner li { margin-bottom: 6px; }
+    .faq-answer-inner a { color: var(--jin-500); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* === 联系 === */
+    .contact-section { padding: 56px 0 96px; }
+    .contact-card {
+      background: linear-gradient(135deg, var(--mo-800) 0%, var(--mo-700) 100%);
+      border-radius: 4px; padding: 64px 80px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .contact-card::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(184,134,11,0.09), transparent 60%),
+        radial-gradient(ellipse 40% 60% at 80% 100%, rgba(184,134,11,0.05), transparent 60%);
+      pointer-events: none;
+    }
+    .contact-card-content { position: relative; z-index: 1; }
+    .contact-seal {
+      width: 58px; height: 58px;
+      background: rgba(192,57,43,0.14); border: 1px solid rgba(192,57,43,0.28);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-size: 22px;
+      color: rgba(220,110,90,0.9);
+      margin: 0 auto 24px;
+      box-shadow: 0 0 0 1px rgba(192,57,43,0.08);
+    }
+    .contact-title {
+      font-family: var(--font-serif); font-size: 24px; font-weight: 600;
+      color: var(--xuan-100); letter-spacing: 0.12em; margin-bottom: 10px;
+    }
+    .contact-sub {
+      font-size: 14px; color: rgba(250,247,240,0.42);
+      margin-bottom: 36px; letter-spacing: 0.04em;
+    }
+    .contact-email-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 13px 30px;
+      background: rgba(184,134,11,0.14); border: 1px solid rgba(184,134,11,0.34);
+      border-radius: 2px; color: var(--jin-400);
+      font-family: var(--font-serif); font-size: 15px;
+      letter-spacing: 0.06em; text-decoration: none;
+      transition: all 0.25s var(--ease-smooth);
+    }
+    .contact-email-btn:hover {
+      background: rgba(184,134,11,0.24); border-color: rgba(184,134,11,0.52);
+      color: #d4af5a; transform: translateY(-1px);
+    }
+    .contact-note {
+      margin-top: 20px; font-size: 12px;
+      color: rgba(250,247,240,0.26); letter-spacing: 0.05em;
+    }
+
+    /* === 页脚 === */
+    footer {
+      background: var(--mo-900);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 56px 0 32px;
+    }
+    .footer-inner { max-width: 860px; margin: 0 auto; padding: 0 40px; }
+    .footer-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 28px;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; }
+    .footer-seal {
+      width: 36px; height: 36px;
+      background: rgba(192,57,43,0.18); border: 1px solid rgba(192,57,43,0.28);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-size: 13px;
+      color: rgba(220,100,80,0.8); font-weight: 700;
+    }
+    .footer-brand-name {
+      font-family: var(--font-serif); font-size: 16px;
+      color: var(--xuan-200); letter-spacing: 0.08em;
+    }
+    .footer-links { display: flex; gap: 36px; list-style: none; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: 13px; color: rgba(250,247,240,0.32);
+      text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(250,247,240,0.65); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 8px;
+    }
+    .footer-copy { font-size: 12px; color: rgba(250,247,240,0.18); letter-spacing: 0.04em; }
+    .footer-motto {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: rgba(250,247,240,0.18);
+      font-family: var(--font-serif); letter-spacing: 0.08em;
+    }
+    .footer-dot { width: 3px; height: 3px; background: rgba(184,134,11,0.3); border-radius: 50%; }
+
+    /* === 进场动画 === */
+    .fade-up {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.6s var(--ease-smooth), transform 0.6s var(--ease-smooth);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* === 响应式 === */
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .hero { height: 300px; }
+      .hero-title { font-size: 38px; }
+      .intro-grid { grid-template-columns: 1fr; }
+      .contact-card { padding: 40px 24px; }
+      .footer-top { flex-direction: column; gap: 24px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .container, .footer-inner, .nav-inner { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航 -->
+  <nav class="nav" role="navigation" aria-label="主导航">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">
+        <div class="nav-seal">命</div>
+        <span class="nav-title">同命吗</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#intro">应用简介</a></li>
+        <li><a href="#faq">常见问题</a></li>
+        <li><a href="#contact">联系我们</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" role="banner">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-line"></div>
+        <span class="hero-eyebrow-text">技术支持中心</span>
+        <div class="hero-line hero-line-r"></div>
+      </div>
+      <h1 class="hero-title">同命吗</h1>
+      <p class="hero-subtitle">命理分析 · 社交连接 · 探寻命运共鸣</p>
+      <div class="hero-badges">
+        <span class="badge"><span class="badge-dot"></span>紫微斗数</span>
+        <span class="badge"><span class="badge-dot"></span>八字排盘</span>
+        <span class="badge"><span class="badge-dot"></span>同命群组</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 应用简介 -->
+    <section class="section" id="intro" aria-labelledby="intro-title">
+      <div class="container">
+        <div class="section-header fade-up">
+          <div class="section-label">应用简介</div>
+          <h2 class="section-title" id="intro-title">探寻命运共鸣之人</h2>
+          <p class="section-desc">五位命理大师 · AI 驱动解读 · 遇见与你同命的人</p>
+        </div>
+        <div class="intro-grid">
+          <div class="intro-card fade-up">
+            <div class="intro-icon">☯</div>
+            <h3 class="intro-card-title">命理深度分析</h3>
+            <p class="intro-card-desc">融合紫微斗数与八字排盘两大传统命理体系，由 AI 驱动五位不同流派的命理大师为您深度解读命盘，分析星曜、十神、五行喜忌与大限流年运势。</p>
+            <div class="intro-tags">
+              <span class="tag">紫微斗数</span>
+              <span class="tag">八字排盘</span>
+              <span class="tag">大限流年</span>
+              <span class="tag">运势预测</span>
+            </div>
+          </div>
+          <div class="intro-card fade-up" style="transition-delay:0.1s">
+            <div class="intro-icon">◈</div>
+            <h3 class="intro-card-title">同命社交连接</h3>
+            <p class="intro-card-desc">系统自动为相同八字命局的用户组建专属群组，让您与「同命之人」相遇。支持群聊互动、每日签到与大事件时间轴，共同见证惊人的命运相似性。</p>
+            <div class="intro-tags">
+              <span class="tag">同命群组</span>
+              <span class="tag">命理群聊</span>
+              <span class="tag">每日打卡</span>
+              <span class="tag">生命时间轴</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-header fade-up">
+          <div class="section-label">常见问题</div>
+          <h2 class="section-title" id="faq-title">遇到问题？我们来解答</h2>
+          <p class="section-desc">点击问题展开详细说明</p>
+        </div>
+
+        <!-- 登录注册 -->
+        <div class="faq-group fade-up">
+          <div class="faq-group-title">登录与注册</div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              如何注册账号？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                同命吗采用<strong>首次登录自动注册</strong>机制，无需单独注册步骤。<br><br>
+                在登录页输入您想使用的账号名称和任意密码，点击「入门」后系统将自动为您创建账号并直接进入生辰信息填写页面。
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              忘记密码怎么办？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                当前版本为简化登录模式，<strong>相同账号名每次均可成功登录</strong>。若您担心账号安全或遇到无法登录的情况，请发送邮件至 <a href="mailto:support@tongmingma.com">support@tongmingma.com</a>，附上账号名称，我们将协助您处理。
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              登录时显示「字符串与预期模式不匹配」错误
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                此错误已在 v1.1 版本中修复，请先更新 App。若更新后仍出现，请尝试：
+                <ul>
+                  <li>退出 App 并重新启动</li>
+                  <li>账号名建议使用中文或英文字母，避免特殊符号</li>
+                  <li>检查网络连接是否正常</li>
+                  <li>如问题持续，请联系技术支持并附上设备型号与 App 版本号</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 八字排盘 -->
+        <div class="faq-group fade-up" style="transition-delay:0.05s">
+          <div class="faq-group-title">八字排盘</div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              填写生辰时「出生时辰」如何选择？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                App 使用传统十二时辰制，每个时辰对应两小时：
+                <ul>
+                  <li><strong>子时</strong>：23:00 – 01:00 &nbsp;|&nbsp; <strong>丑时</strong>：01:00 – 03:00</li>
+                  <li><strong>寅时</strong>：03:00 – 05:00 &nbsp;|&nbsp; <strong>卯时</strong>：05:00 – 07:00</li>
+                  <li><strong>辰时</strong>：07:00 – 09:00 &nbsp;|&nbsp; <strong>巳时</strong>：09:00 – 11:00</li>
+                  <li><strong>午时</strong>：11:00 – 13:00 &nbsp;|&nbsp; <strong>未时</strong>：13:00 – 15:00</li>
+                  <li><strong>申时</strong>：15:00 – 17:00 &nbsp;|&nbsp; <strong>酉时</strong>：17:00 – 19:00</li>
+                  <li><strong>戌时</strong>：19:00 – 21:00 &nbsp;|&nbsp; <strong>亥时</strong>：21:00 – 23:00</li>
+                </ul>
+                不确定出生时辰可选「不详」，系统会以中间时辰推算。
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              八字结果与其他软件不一样，哪个准确？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                同命吗采用严格的<strong>节气换月法</strong>，以太阳视黄经为基准确定月柱，遵循传统命理典籍规范。与其他工具差异的常见原因：
+                <ul>
+                  <li>换月方式不同（节气换月 vs 农历初一换月）</li>
+                  <li>是否校正出生地经度时差</li>
+                  <li>换年界定（立春 vs 农历正月初一）</li>
+                </ul>
+                多数专业命理师采用节气换月法，这也是本 App 的标准。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 紫微斗数 -->
+        <div class="faq-group fade-up" style="transition-delay:0.10s">
+          <div class="faq-group-title">紫微斗数命盘</div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              命盘上的「庙旺得利平陷」各代表什么？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                这是星曜在各宫位的<strong>亮度（入庙程度）</strong>，代表该星发挥力量的强弱：
+                <ul>
+                  <li><strong style="color:#c0392b">庙</strong>：力量最强，星曜特质充分正面发挥</li>
+                  <li><strong style="color:#b8860b">旺</strong>：力量较强，表现积极稳定</li>
+                  <li><strong style="color:#2e7d32">得</strong>：力量中上，运作良好</li>
+                  <li><strong style="color:#1565c0">利</strong>：力量中等，需配合其他星曜</li>
+                  <li><strong>平／不／陷</strong>：力量减弱，星曜特质受限，需留意</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              命盘中「禄权科忌」四化是什么意思？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                四化是根据<strong>生年天干</strong>对主星进行的特殊加权，是紫微斗数分析的核心：
+                <ul>
+                  <li><strong style="color:#059669">禄</strong>：财禄、顺遂、增益之象</li>
+                  <li><strong style="color:#d97706">权</strong>：权威、主导、掌控力</li>
+                  <li><strong style="color:#7c3aed">科</strong>：名誉、学识、贵人提携</li>
+                  <li><strong style="color:#dc2626">忌</strong>：阻碍、是非、需特别留意</li>
+                </ul>
+                点击命盘上的宫位格，即可在详情面板中查看该宫星曜与四化的完整解读。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 群组 -->
+        <div class="faq-group fade-up" style="transition-delay:0.15s">
+          <div class="faq-group-title">同命群组</div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              为什么我的群组里只有我一个人？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                群组依据<strong>精确八字（年·月·日·时四柱）</strong>严格匹配，因此初期人数较少属于正常现象。随着 App 用户增加，您的群组成员也会自然增多。<br><br>
+                目前群组内已有五位命理大师 AI 陪伴，可随时在群聊中 @ 他们获取命盘解读与运势分析。
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              群聊中的命理大师是真人还是 AI？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                群聊内的五位命理大师（观星客、子平先生、斗数居士、玄机道人、风水大叔）均为<strong>AI 命理智能助手</strong>，各具不同流派的命理风格，基于传统典籍与您的命盘数据进行专属解读。<br><br>
+                在群聊输入框输入 <strong>@</strong> 即可唤出大师列表，选择后直接提问即可。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 打卡 -->
+        <div class="faq-group fade-up" style="transition-delay:0.20s">
+          <div class="faq-group-title">每日打卡与时间轴</div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              每日打卡数据会被怎么使用？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                打卡数据（情绪、健康、事业、财运）经过<strong>匿名聚合后</strong>以百分比形式展示给同命群组成员，帮助大家发现相同命局在同一时段的共同规律。<br><br>
+                您的个人内容不会向他人展示，我们不会将数据用于任何商业目的。
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              如何在生命时间轴上添加我的大事件？
+              <span class="faq-arrow" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                操作步骤如下：
+                <ul>
+                  <li>进入「命盘结果」页面，向下滚动找到「大事件时间轴」</li>
+                  <li>点击横轴上对应年份的节点</li>
+                  <li>在展开的面板中选择大事件类型（结婚、创业、伤病、升学等）</li>
+                  <li>点击即添加，再次点击为撤销</li>
+                </ul>
+                您的事件将以匿名形式计入群组统计，帮助发现同命人生轨迹的相似性。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 联系 -->
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact-card fade-up">
+          <div class="contact-card-content">
+            <div class="contact-seal">命</div>
+            <h2 class="contact-title" id="contact-title">仍有疑问？联系我们</h2>
+            <p class="contact-sub">工作日 1–2 天内回复，节假日顺延</p>
+            <a href="mailto:support@tongmingma.com" class="contact-email-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.5"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+              support@tongmingma.com
+            </a>
+            <p class="contact-note">反馈问题时请注明 App 版本号与设备型号，以便更快定位问题</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-seal">命</div>
+          <span class="footer-brand-name">同命吗</span>
+        </div>
+        <ul class="footer-links">
+          <li><a href="privacy.html">隐私政策</a></li>
+          <li><a href="terms.html">服务条款</a></li>
+          <li><a href="mailto:support@tongmingma.com">联系我们</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 同命吗. All rights reserved.</p>
+        <div class="footer-motto">
+          <span class="footer-dot"></span>
+          探寻命运共鸣
+          <span class="footer-dot"></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ 手风琴
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+
+        // 同组内关闭其他
+        item.closest('.faq-group').querySelectorAll('.faq-item.open').forEach(el => {
+          if (el !== item) {
+            el.classList.remove('open');
+            el.querySelector('.faq-answer').style.maxHeight = '0';
+            el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        if (isOpen) {
+          item.classList.remove('open');
+          answer.style.maxHeight = '0';
+          btn.setAttribute('aria-expanded', 'false');
+        } else {
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // 滚动进场动画
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
